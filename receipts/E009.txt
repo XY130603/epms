@@ -1,17 +1,17 @@
 Company Name: Darkrose INC
 Address: A.P,India
 --------------------------------------------------------
- Employee ID		: E004
- Salary of		: April-2023
+ Employee ID		: E009
+ Salary of		: September-2023
  Generated on		: 05-04-2025
 --------------------------------------------------------
  Total Days		: 22
  Total Present		: 21
  Total Absent		: 1
- Conveyance		: Rs.350.0
+ Conveyance		: Rs.450.0
  Medical		: Rs.600.0
- PF		: Rs.900.0
- Gross Payment		: Rs7000.0
- Net Salary		: Rs.5531.82
+ PF		: Rs.1000.0
+ Gross Payment		: Rs7500.0
+ Net Salary		: Rs.6009.09
 -------------------------------------------------------
 This is Computer Generated slip,	Signature not required

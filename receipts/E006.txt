@@ -1,18 +1,17 @@
 Company Name: Darkrose INC
 Address: A.P,India
 --------------------------------------------------------
- Employee ID		:  6
- Salary of		:  Dec-2020
- Generated on		:  03-01-2021
+ Employee ID		: E006
+ Salary of		: June-2023
+ Generated on		: 05-04-2025
 --------------------------------------------------------
- Total Days		:  31
- Total Present		:  30
- Total Absent		:  1
- Conveyance		:  Rs.1500
- Medical		:  Rs.3000
- PF		:  Rs.2000
- Gross Payment		:  Rs75000
- Net Salary		: Rs.69080.65
+ Total Days		: 22
+ Total Present		: 22
+ Total Absent		: 0
+ Conveyance		: Rs.300.0
+ Medical		: Rs.450.0
+ PF		: Rs.800.0
+ Gross Payment		: Rs6500.0
+ Net Salary		: Rs.5550.0
 -------------------------------------------------------
 This is Computer Generated slip,	Signature not required
-

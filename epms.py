@@ -317,7 +317,7 @@ This is Computer Generated slip,\tSignature not required
     ##------------Functions----------##
     def search(self):
         try:
-            con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
+            con=pymysql.connect(host='localhost',user='root',password='Paul@130603',db='ems')
             cur=con.cursor()
             cur.execute("select * from emp_salary where e_id=%s",(self.var_emp_code.get()))
             row=cur.fetchone()
@@ -399,7 +399,7 @@ This is Computer Generated slip,\tSignature not required
             messagebox.showerror("Error","Employee ID is required")
         else:
             try:
-                con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
+                con=pymysql.connect(host='localhost',user='root',password='Paul@130603',db='ems')
                 cur=con.cursor()
                 cur.execute("select * from emp_salary where e_id=%s",(self.var_emp_code.get()))
                 row=cur.fetchone()
@@ -418,85 +418,161 @@ This is Computer Generated slip,\tSignature not required
                 messagebox.showerror("Error",f'Error due to: {str(ex)}')
         
     def add(self):
-        if self.var_emp_code.get()=='' or self.var_email.get()=='' or self.var_name.get()=='' or self.var_n_salary.get()=='':
-            messagebox.showerror("Error","Employee details are required")
-        else:
-            try:
-                con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
-                cur=con.cursor()
-                cur.execute("select * from emp_salary where e_id=%s",(self.var_emp_code.get()))
-                row=cur.fetchone()
-                if row!=None:
-                    messagebox.showerror("Error","This employee id is already available in our record,try again with another id",parent=self.root)
-                else:
-                    cur.execute("insert into emp_salary values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(self.var_emp_code.get(),self.var_designation.get(),self.var_name.get(),self.var_age.get(),self.var_gender.get(),self.var_email.get(),self.var_hr_location.get(),self.var_dob.get(),self.var_doj.get(),self.var_experience.get(),self.var_proofid.get(),self.var_contact.get(),self.var_status.get(),self.txt_address.get('1.0',tk.END),self.var_month.get(),self.var_year.get(),self.var_b_salary.get(),self.var_t_days.get(),self.var_absents.get(),self.var_medical.get(),self.var_pf.get(),self.var_conveyance.get(),self.var_n_salary.get(),self.var_emp_code.get()+".txt"))
-                    con.commit()
-                    con.close()
-                    file=open('receipts/'+str(self.var_emp_code.get())+".txt",'w')
-                    file.write(self.txt_salary_receipt.get('1.0',tk.END))
-                    file.close
-                    messagebox.showinfo("Success","Record Added Successfully")
-                    self.button_print.config(state=tk.NORMAL)
-            except Exception as ex:
-                messagebox.showerror("Error",f'Error due to: {str(ex)}')
-                
+        # ... (existing validation code)
+        try:
+            con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
+            cur = con.cursor()
+            cur.execute("SELECT * FROM emp_salary WHERE e_id=%s", (self.var_emp_code.get()))
+            row = cur.fetchone()
+            if row is not None:
+                messagebox.showerror("Error", "Employee ID already exists. Use a different ID.", parent=self.root)
+            else:
+                # Insert into database (DO NOT save receipt here)
+                cur.execute(
+                    "INSERT INTO emp_salary VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (
+                        self.var_emp_code.get(),
+                        self.var_designation.get(),
+                        self.var_name.get(),
+                        self.var_age.get(),
+                        self.var_gender.get(),
+                        self.var_email.get(),
+                        self.var_hr_location.get(),
+                        self.var_dob.get(),
+                        self.var_doj.get(),
+                        self.var_experience.get(),
+                        self.var_proofid.get(),
+                        self.var_contact.get(),
+                        self.var_status.get(),
+                        self.txt_address.get('1.0', tk.END),
+                        self.var_month.get(),
+                        self.var_year.get(),
+                        self.var_b_salary.get(),
+                        self.var_t_days.get(),
+                        self.var_absents.get(),
+                        self.var_medical.get(),
+                        self.var_pf.get(),
+                        self.var_conveyance.get(),
+                        self.var_n_salary.get(),
+                        ''  # Leave salary_receipt empty initially
+                    )
+                )
+                con.commit()
+
+                messagebox.showinfo("Success", "Record Added Successfully")
+                self.button_print.config(state=tk.NORMAL)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to: {str(ex)}")
+        finally:
+            con.close()
+
     def update(self):
-        if self.var_emp_code.get()=='' or self.var_n_salary.get()=='' or self.var_name.get()=='':
-            messagebox.showerror("Error","Employee details are required")
-        else:
-            try:
-                con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
-                cur=con.cursor()
-                cur.execute("select * from emp_salary where e_id=%s",(self.var_emp_code.get()))
-                row=cur.fetchone()
-                if row==None:
-                    messagebox.showerror("Error","This employee id is invalid,try again with valid id",parent=self.root)
-                else:
-                    cur.execute("UPDATE `emp_salary` SET `designation`=%s,`name`=%s,`age`=%s,`gender`=%s,`email`=%s,`hr_location`=%s,`dob`=%s,`doj`=%s,`experience`=%s,`proof_id`=%s,`contact`=%s,`status`=%s,`address`=%s,`month`=%s,`year`=%s,`basic_salary`=%s,`t-days`=%s,`absent_days`=%s,`medical`=%s,`pf`=%s,`conveyance`=%s,`net_salary`=%s,`salary_receipt`=%s WHERE `e_id`=%s",(self.var_designation.get(),self.var_name.get(),self.var_age.get(),self.var_gender.get(),self.var_email.get(),self.var_hr_location.get(),self.var_dob.get(),self.var_doj.get(),self.var_experience.get(),self.var_proofid.get(),self.var_contact.get(),self.var_status.get(),self.txt_address.get('1.0',tk.END),self.var_month.get(),self.var_year.get(),self.var_b_salary.get(),self.var_t_days.get(),self.var_absents.get(),self.var_medical.get(),self.var_pf.get(),self.var_conveyance.get(),self.var_n_salary.get(),self.var_emp_code.get()+".txt",self.var_emp_code.get()))
-                    con.commit()
-                    con.close()
-                    file=open('receipts/'+str(self.var_emp_code.get())+".txt",'w')
-                    file.write(self.txt_salary_receipt.get('1.0',tk.END))
-                    file.close
-                    messagebox.showinfo("Success","Record Updated Successfully")
-            except Exception as ex:
-                messagebox.showerror("Error",f'Error due to: {str(ex)}')
-            
+        # ... (existing validation code)
+        try:
+            con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
+            cur = con.cursor()
+            cur.execute("SELECT * FROM emp_salary WHERE e_id=%s", (self.var_emp_code.get()))
+            row = cur.fetchone()
+            if row is None:
+                messagebox.showerror("Error", "Invalid Employee ID. Please enter a valid ID.", parent=self.root)
+            else:
+                # Update database (DO NOT save receipt here)
+                cur.execute(
+                    "UPDATE emp_salary SET designation=%s, name=%s, age=%s, gender=%s, email=%s, hr_location=%s, dob=%s, doj=%s, experience=%s, proof_id=%s, contact=%s, status=%s, address=%s, month=%s, year=%s, basic_salary=%s, t_days=%s, absent_days=%s, medical=%s, pf=%s, conveyance=%s, net_salary=%s WHERE e_id=%s",
+                    (
+                        self.var_designation.get(),
+                        self.var_name.get(),
+                        self.var_age.get(),
+                        self.var_gender.get(),
+                        self.var_email.get(),
+                        self.var_hr_location.get(),
+                        self.var_dob.get(),
+                        self.var_doj.get(),
+                        self.var_experience.get(),
+                        self.var_proofid.get(),
+                        self.var_contact.get(),
+                        self.var_status.get(),
+                        self.txt_address.get('1.0', tk.END),
+                        self.var_month.get(),
+                        self.var_year.get(),
+                        self.var_b_salary.get(),
+                        self.var_t_days.get(),
+                        self.var_absents.get(),
+                        self.var_medical.get(),
+                        self.var_pf.get(),
+                        self.var_conveyance.get(),
+                        self.var_n_salary.get(),
+                        self.var_emp_code.get()
+                    )
+                )
+                con.commit()
+
+                messagebox.showinfo("Success", "Record Updated Successfully")
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to: {str(ex)}")
+        finally:
+            con.close()
+
     def calculate(self):
-        if self.var_month.get()=='' or self.var_year.get()=='' or self.var_b_salary.get()=='' or self.var_absents.get()=='' or self.var_t_days.get()=='' or self.var_medical.get()=='' or self.var_pf.get()=='' or self.var_conveyance.get()=='':
-            messagebox.showerror('Error','All Fields are required')
-        else:
-            per_day=int(self.var_b_salary.get())/int(self.var_t_days.get())
-            work_day=int(self.var_t_days.get())-int(self.var_absents.get())
-            e_sal=per_day*work_day###Effective Salary
-            deduct=int(self.var_medical.get())+int(self.var_pf.get())
-            addition=int(self.var_conveyance.get())
-            n_sal=e_sal-deduct+addition
-            self.var_n_salary.set(str(round(n_sal,2)))
-            #####Update Receipt####
-            new_sample=f'''Company Name: Darkrose INC\nAddress: A.P,India
---------------------------------------------------------
- Employee ID\t\t:  {self.var_emp_code.get()}
- Salary of\t\t:  {self.var_month.get()}-{self.var_year.get()}
- Generated on\t\t:  {str(time.strftime("%d-%m-%Y"))}
---------------------------------------------------------
- Total Days\t\t:  {self.var_t_days.get()}
- Total Present\t\t:  {str(int(self.var_t_days.get())-int(self.var_absents.get()))}
- Total Absent\t\t:  {self.var_absents.get()}
- Conveyance\t\t:  Rs.{self.var_conveyance.get()}
- Medical\t\t:  Rs.{self.var_medical.get()}
- PF\t\t:  Rs.{self.var_pf.get()}
- Gross Payment\t\t:  Rs{self.var_b_salary.get()}
- Net Salary\t\t: Rs.{self.var_n_salary.get()}
--------------------------------------------------------
-This is Computer Generated slip,\tSignature not required
-'''         
-            self.txt_salary_receipt.delete('1.0',tk.END)
-            self.txt_salary_receipt.insert(tk.END,new_sample)
-    
+        if not all([
+            self.var_month.get(),
+            self.var_year.get(),
+            self.var_b_salary.get(),
+            self.var_absents.get(),
+            self.var_t_days.get(),
+            self.var_medical.get(),
+            self.var_pf.get(),
+            self.var_conveyance.get()
+        ]):
+            messagebox.showerror('Error', 'All Fields are required')
+            return
+
+        try:
+            # Use float for monetary values
+            basic_salary = float(self.var_b_salary.get())
+            t_days = int(self.var_t_days.get())
+            absent_days = int(self.var_absents.get())
+            medical = float(self.var_medical.get())
+            pf = float(self.var_pf.get())
+            conveyance = float(self.var_conveyance.get())
+
+            per_day = basic_salary / t_days
+            work_days = t_days - absent_days
+            net_salary = (per_day * work_days) - medical - pf + conveyance
+
+            # Update GUI fields
+            self.var_n_salary.set(round(net_salary, 2))
+
+            # Generate receipt text
+            new_sample = f'''Company Name: Darkrose INC
+    Address: A.P,India
+    --------------------------------------------------------
+     Employee ID\t\t: {self.var_emp_code.get()}
+     Salary of\t\t: {self.var_month.get()}-{self.var_year.get()}
+     Generated on\t\t: {time.strftime("%d-%m-%Y")}
+    --------------------------------------------------------
+     Total Days\t\t: {t_days}
+     Total Present\t\t: {work_days}
+     Total Absent\t\t: {absent_days}
+     Conveyance\t\t: Rs.{conveyance:.2f}
+     Medical\t\t: Rs.{medical:.2f}
+     PF\t\t: Rs.{pf:.2f}
+     Gross Payment\t\t: Rs{basic_salary:.2f}
+     Net Salary\t\t: Rs.{net_salary:.2f}
+    -------------------------------------------------------
+    This is Computer Generated slip,\tSignature not required'''
+
+            self.txt_salary_receipt.delete('1.0', tk.END)
+            self.txt_salary_receipt.insert(tk.END, new_sample)
+
+        except ValueError as ve:
+            messagebox.showerror("Error", f"Invalid numeric value: {ve}")
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to: {str(ex)}")
+
     def check_connection(self):
         try:
-            con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
+            con=pymysql.connect(host='localhost',user='root',password='Paul@130603',db='ems')
             cur=con.cursor()
             cur.execute("select * from emp_salary")
             self.row=cur.fetchall()
@@ -506,7 +582,7 @@ This is Computer Generated slip,\tSignature not required
             
     def show(self):
         try:
-            con=pymysql.connect(host='localhost',user='root',password='1234',db='ems')
+            con=pymysql.connect(host='localhost',user='root',password='Paul@130603',db='ems')
             cur=con.cursor()
             cur.execute("select * from emp_salary")
             row=cur.fetchall()
@@ -596,17 +672,40 @@ This is Computer Generated slip,\tSignature not required
         self.root2.mainloop()
         
     def print(self):
-        file=tempfile.mktemp(".txt")
-        open(file,'w').write(self.txt_salary_receipt.get('1.0',tk.END))
-        # os.startfile(file_,'print')
-        # if sys.platform == "win32":
-        #     os.startfile(file,'print')
-        # else:
-        #     opener = "open" if sys.platform == "darwin" else "xdg-open"
-        #     subprocess.call([opener, file])
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, file])
+        try:
+            emp_code = self.var_emp_code.get().strip()
+            if not emp_code:
+                messagebox.showerror("Error", "Employee Code is required")
+                return
+            
+            # Ensure receipts directory exists
+            os.makedirs('receipts', exist_ok=True)
+            
+            # Generate receipt content
+            receipt_content = self.txt_salary_receipt.get('1.0', tk.END)
+            
+            # Save the receipt file
+            file_path = os.path.join('receipts', f"{emp_code}.txt")
+            with open(file_path, 'w') as f:
+                f.write(receipt_content)
+            
+            # Update the salary_receipt field in the database
+            con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
+            cur = con.cursor()
+            cur.execute("UPDATE emp_salary SET salary_receipt=%s WHERE e_id=%s", (file_path, emp_code))
+            con.commit()
+            con.close()
+            
+            # Open the file for printing
+            if sys.platform == "win32":
+                os.startfile(file_path, 'print')
+            else:
+                opener = "open" if sys.platform == "darwin" else "xdg-open"
+                subprocess.call([opener, file_path])
         
+        except Exception as ex:
+            messagebox.showerror("Error", f"Printing failed: {str(ex)}")
+
 root=tk.Tk()
 obj=EmployeeSystem(root)
 root.mainloop()
