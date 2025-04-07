@@ -692,7 +692,7 @@ This is Computer Generated slip,\tSignature not required
             # Update the salary_receipt field in the database
             con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
             cur = con.cursor()
-            cur.execute("UPDATE emp_salary SET salary_receipt=%s WHERE e_id=%s", (file_path, emp_code))
+            cur.execute("UPDATE emp_salary SET salary_receipt=%s WHERE e_id=%s", (f"{emp_code}.txt", emp_code))
             con.commit()
             con.close()
             
