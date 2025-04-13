@@ -28,3 +28,8 @@ Usage
 *Change the databases and table names if required in main applications<br />
 *Execute registration.py to register,then login using login form to open main application(epms.py)
 
+*Steps:<br />
+*1. Replace mysql account and password<br />
+*2. Run create_db.py<br />
+*3. Run insert_dummy_data.py<br />
+*4. Run registration.py / login.py / epms.py

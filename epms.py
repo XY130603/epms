@@ -418,7 +418,7 @@ This is Computer Generated slip,\tSignature not required
                 messagebox.showerror("Error",f'Error due to: {str(ex)}')
         
     def add(self):
-        # ... (existing validation code)
+
         try:
             con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
             cur = con.cursor()
@@ -467,7 +467,7 @@ This is Computer Generated slip,\tSignature not required
             con.close()
 
     def update(self):
-        # ... (existing validation code)
+
         try:
             con = pymysql.connect(host='localhost', user='root', password='Paul@130603', db='ems')
             cur = con.cursor()
